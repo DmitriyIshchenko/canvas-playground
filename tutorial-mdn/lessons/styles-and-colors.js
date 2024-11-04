@@ -3,7 +3,8 @@ export function drawStyledShapes() {
 
   // drawGridPalette(ctx);
   // drawGridCircles(ctx);
-  drawTransparentCircles(ctx);
+  // drawTransparentCircles(ctx);
+  drawLines(ctx);
 }
 
 // FILL STYLE EXAMPLE
@@ -58,5 +59,17 @@ function drawTransparentCircles(ctx) {
     ctx.beginPath();
     ctx.arc(75, 75, 10 + 10 * i, 0, Math.PI * 2, true);
     ctx.fill();
+  }
+}
+
+// LINES
+
+function drawLines(ctx) {
+  for (let i = 0; i < 10; i++) {
+    ctx.lineWidth = 1 + i;
+    ctx.beginPath();
+    ctx.moveTo(5 + i * 14, 5);
+    ctx.lineTo(5 + i * 14, 140);
+    ctx.stroke();
   }
 }
