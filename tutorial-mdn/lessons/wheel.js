@@ -1,9 +1,9 @@
 const LOTS = {
-  a: 100,
-  b: 25,
-  c: 33,
-  d: 35,
-  e: 15,
+  aaaaaa: 200,
+  bbb: 50,
+  cccc: 50,
+  dddd: 50,
+  eeee: 50,
 };
 
 const WHEEL = {
@@ -21,9 +21,9 @@ export function drawWheel() {
     let startAngle = 0;
     const sum = Object.values(LOTS).reduce((acc, cur) => acc + cur, 0);
 
-    Object.values(LOTS).forEach((value) => {
+    Object.entries(LOTS).forEach(([name, value]) => {
       const endAngle = startAngle + (2 * Math.PI * value) / sum;
-      drawSegment(ctx, startAngle, endAngle);
+      drawSegment(ctx, startAngle, endAngle, name);
       startAngle = endAngle;
     });
   } else {
@@ -31,7 +31,7 @@ export function drawWheel() {
   }
 }
 
-function drawSegment(ctx, startAngle, endAngle) {
+function drawSegment(ctx, startAngle, endAngle, name) {
   const { centerX, centerY, radius } = WHEEL;
   const randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
@@ -45,4 +45,13 @@ function drawSegment(ctx, startAngle, endAngle) {
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
+
+  ctx.save();
+  ctx.fillStyle = "black";
+  ctx.translate(150, 150);
+  ctx.rotate(startAngle + (endAngle - startAngle) / 2);
+  ctx.font = "24px serif";
+  ctx.fillText(name, 50, 6);
+
+  ctx.restore();
 }
