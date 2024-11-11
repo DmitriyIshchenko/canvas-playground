@@ -9,10 +9,10 @@ const c = canvas.getContext("2d");
 
 // CIRCLE
 
-let x = 200;
-let y = 200;
-let dx = 5;
-let dy = 5;
+let x = Math.random() * innerWidth;
+let y = Math.random() * innerHeight;
+let dx = (Math.random() - 0.5) * 10;
+let dy = (Math.random() - 0.5) * 10;
 const radius = 30;
 
 function animate() {
