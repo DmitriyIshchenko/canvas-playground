@@ -14,7 +14,7 @@ const mouse = {
 
 const MAX_RADIUS = 40;
 
-const COLORS = ["#ffaa", "#fdfd", "#dd112d", "#aaffaa", "#1423aa"];
+const COLORS = ["#5C4B51", "#8CBEB2", "#F2EBBF", "#F3B562", "#F06060"];
 
 window.addEventListener("mousemove", (event) => {
   mouse.x = event.x;
