@@ -21,6 +21,13 @@ window.addEventListener("mousemove", (event) => {
   mouse.y = event.y;
 });
 
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  init();
+});
+
 // CIRCLE
 
 class Circle {
@@ -70,19 +77,6 @@ class Circle {
   }
 }
 
-const circles = [];
-for (let i = 0; i < 300; i++) {
-  const radius = Math.random() * 3 + 1;
-  // prevent from sticking to the edges
-  const x = Math.random() * (innerWidth - radius * 2) + radius;
-  const y = Math.random() * (innerHeight - radius * 2) + radius;
-
-  const dx = (Math.random() - 0.5) * 2;
-  const dy = (Math.random() - 0.5) * 2;
-
-  circles.push(new Circle(x, y, dx, dy, radius));
-}
-
 function animate() {
   requestAnimationFrame(animate); // creates a loop
   c.clearRect(0, 0, innerWidth, innerHeight); // clear the canvas for each frame
@@ -90,4 +84,21 @@ function animate() {
   circles.forEach((circle) => circle.update());
 }
 
-animate(); // init
+const circles = [];
+function init() {
+  circles.length = 0; // reset circles
+  for (let i = 0; i < 300; i++) {
+    const radius = Math.random() * 3 + 1;
+    // prevent from sticking to the edges
+    const x = Math.random() * (innerWidth - radius * 2) + radius;
+    const y = Math.random() * (innerHeight - radius * 2) + radius;
+
+    const dx = (Math.random() - 0.5) * 2;
+    const dy = (Math.random() - 0.5) * 2;
+
+    circles.push(new Circle(x, y, dx, dy, radius));
+  }
+}
+
+init();
+animate();
