@@ -13,15 +13,12 @@ const mouse = {
 };
 
 const MAX_RADIUS = 40;
-const MIN_RADIUS = 2;
 
 const COLORS = ["#ffaa", "#fdfd", "#dd112d", "#aaffaa", "#1423aa"];
 
 window.addEventListener("mousemove", (event) => {
   mouse.x = event.x;
   mouse.y = event.y;
-
-  console.log(mouse);
 });
 
 // CIRCLE
@@ -33,6 +30,7 @@ class Circle {
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
+    this.minRadius = radius;
     this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
   }
 
@@ -64,7 +62,8 @@ class Circle {
     ) {
       this.radius = this.radius < MAX_RADIUS ? this.radius + 1 : this.radius;
     } else {
-      this.radius = this.radius > MIN_RADIUS ? this.radius - 1 : this.radius;
+      this.radius =
+        this.radius > this.minRadius ? this.radius - 1 : this.radius;
     }
 
     this.draw();
@@ -72,8 +71,8 @@ class Circle {
 }
 
 const circles = [];
-for (let i = 0; i < 100; i++) {
-  const radius = 30;
+for (let i = 0; i < 300; i++) {
+  const radius = Math.random() * 3 + 1;
   // prevent from sticking to the edges
   const x = Math.random() * (innerWidth - radius * 2) + radius;
   const y = Math.random() * (innerHeight - radius * 2) + radius;
