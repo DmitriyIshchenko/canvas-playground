@@ -7,6 +7,21 @@ canvas.height = window.innerHeight;
 
 const c = canvas.getContext("2d");
 
+const mouse = {
+  x: null,
+  y: null,
+};
+
+const MAX_RADIUS = 40;
+const MIN_RADIUS = 2;
+
+window.addEventListener("mousemove", (event) => {
+  mouse.x = event.x;
+  mouse.y = event.y;
+
+  console.log(mouse);
+});
+
 // CIRCLE
 
 class Circle {
@@ -23,6 +38,7 @@ class Circle {
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     c.strokeStyle = "blue";
     c.stroke();
+    c.fill();
   }
 
   update() {
@@ -35,6 +51,18 @@ class Circle {
     // update coords
     this.x += this.dx;
     this.y += this.dy;
+
+    // grow/shrink
+    if (
+      mouse.x - this.x < 50 &&
+      mouse.x - this.x > -50 &&
+      mouse.y - this.y < 50 &&
+      mouse.y - this.y > -50
+    ) {
+      this.radius = this.radius < MAX_RADIUS ? this.radius + 1 : this.radius;
+    } else {
+      this.radius = this.radius > MIN_RADIUS ? this.radius - 1 : this.radius;
+    }
 
     this.draw();
   }
