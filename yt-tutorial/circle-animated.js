@@ -15,6 +15,8 @@ const mouse = {
 const MAX_RADIUS = 40;
 const MIN_RADIUS = 2;
 
+const COLORS = ["#ffaa", "#fdfd", "#dd112d", "#aaffaa", "#1423aa"];
+
 window.addEventListener("mousemove", (event) => {
   mouse.x = event.x;
   mouse.y = event.y;
@@ -31,13 +33,14 @@ class Circle {
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
   }
 
   draw() {
     c.beginPath();
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    c.strokeStyle = "blue";
-    c.stroke();
+
+    c.fillStyle = this.color;
     c.fill();
   }
 
