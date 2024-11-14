@@ -4,6 +4,9 @@ canvas.height = 300;
 
 const ctx = canvas.getContext("2d");
 
+const winnerEl = document.createElement("p");
+document.body.append(winnerEl);
+
 const LOTS = {
   lotA: 100,
   lotB: 50,
@@ -61,12 +64,30 @@ class Wheel {
     });
   }
 
+  detectCurrentSegment() {
+    const cursorAngle = (3 * Math.PI) / 2; // top center
+
+    const currentSegment = this.segments.find((segment) => {
+      const normalizedStart =
+        (segment.startAngle + segment.rotation) % (Math.PI * 2);
+      const normalizedEnd =
+        (segment.endAngle + segment.rotation) % (Math.PI * 2);
+
+      return normalizedStart <= cursorAngle && normalizedEnd >= cursorAngle;
+    });
+
+    if (currentSegment) {
+      winnerEl.textContent = currentSegment.name;
+    }
+  }
+
   startAnimation() {
     this.frame = window.requestAnimationFrame(this.startAnimation.bind(this));
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     this.segments.forEach((segment) => segment.update());
     this.drawCursor();
+    this.detectCurrentSegment();
   }
 
   stopAnimation() {
@@ -135,10 +156,8 @@ class Segment {
   update() {
     this.draw();
 
-    // this.rotation *= 0.99;
-
-    this.startAngle += 0.01;
-    this.endAngle += 0.01;
+    // TODO: implement gradual slowing
+    this.rotation += 0.1;
   }
 }
 
@@ -154,3 +173,5 @@ document.body.append(button);
 button.addEventListener("click", () => {
   wheel.spin();
 });
+
+/////////////////////////
