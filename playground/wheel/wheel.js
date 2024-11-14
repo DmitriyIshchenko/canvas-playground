@@ -7,6 +7,8 @@ const ctx = canvas.getContext("2d");
 const winnerEl = document.createElement("p");
 document.body.append(winnerEl);
 
+const COLORS = ["#EB5353", "#36AE7C", "#F9D923", "#187498"];
+
 const LOTS = {
   lotA: 100,
   lotB: 50,
@@ -56,9 +58,17 @@ class Wheel {
 
     return Object.entries(lots)
       .sort(() => Math.random() - 0.5)
-      .map(([name, value]) => {
+      .map(([name, value], index) => {
         const endAngle = startAngle + (2 * Math.PI * value) / sum;
-        const segment = new Segment(name, this.settings, startAngle, endAngle);
+
+        const segment = new Segment(
+          name,
+          this.settings,
+          startAngle,
+          endAngle,
+          COLORS[index % COLORS.length] // loop through palette
+        );
+
         segment.draw();
         startAngle = endAngle;
 
@@ -111,9 +121,10 @@ class Wheel {
 }
 
 class Segment {
-  constructor(name, settings, startAngle, endAngle) {
+  constructor(name, settings, startAngle, endAngle, color) {
     this.name = name;
     this.settings = settings;
+    this.color = color;
 
     this.startAngle = startAngle;
     this.endAngle = endAngle;
@@ -130,6 +141,9 @@ class Segment {
     ctx.moveTo(0, 0);
     ctx.arc(0, 0, radius, this.startAngle, this.endAngle);
     ctx.lineTo(0, 0);
+
+    ctx.fillStyle = this.color;
+    ctx.fill();
     ctx.stroke();
 
     ctx.restore();
