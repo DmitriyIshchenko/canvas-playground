@@ -84,9 +84,9 @@ class Wheel {
 
     const currentSegment = this.segments.find((segment) => {
       const normalizedStart =
-        (segment.startAngle + segment.rotation) % (Math.PI * 2);
+        (segment.angles.startAngle + segment.rotation) % (Math.PI * 2);
       const normalizedEnd =
-        (segment.endAngle + segment.rotation) % (Math.PI * 2);
+        (segment.angles.endAngle + segment.rotation) % (Math.PI * 2);
 
       return normalizedStart <= cursorAngle && normalizedEnd >= cursorAngle;
     });
