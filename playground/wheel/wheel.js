@@ -54,14 +54,16 @@ class Wheel {
     let startAngle = 0;
     const sum = Object.values(lots).reduce((acc, cur) => acc + cur, 0);
 
-    return Object.entries(lots).map(([name, value]) => {
-      const endAngle = startAngle + (2 * Math.PI * value) / sum;
-      const segment = new Segment(name, this.settings, startAngle, endAngle);
-      segment.draw();
-      startAngle = endAngle;
+    return Object.entries(lots)
+      .sort(() => Math.random() - 0.5)
+      .map(([name, value]) => {
+        const endAngle = startAngle + (2 * Math.PI * value) / sum;
+        const segment = new Segment(name, this.settings, startAngle, endAngle);
+        segment.draw();
+        startAngle = endAngle;
 
-      return segment;
-    });
+        return segment;
+      });
   }
 
   detectCurrentSegment() {
