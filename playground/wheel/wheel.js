@@ -59,14 +59,17 @@ class Wheel {
     return Object.entries(lots)
       .sort(() => Math.random() - 0.5)
       .map(([name, value], index) => {
+        // fraction of the whole circle (2PI)
         const endAngle = startAngle + (2 * Math.PI * value) / sum;
+        const angles = {
+          startAngle,
+          endAngle,
+        };
 
         const segment = new Segment(
           name,
-          this.settings,
-          startAngle,
-          endAngle,
-          COLORS[index % COLORS.length] // loop through palette
+          { ...this.settings, color: COLORS[index % COLORS.length] },
+          angles
         );
 
         segment.draw();
@@ -121,28 +124,27 @@ class Wheel {
 }
 
 class Segment {
-  constructor(name, settings, startAngle, endAngle, color) {
+  constructor(name, settings, angles) {
     this.name = name;
     this.settings = settings;
-    this.color = color;
+    this.angles = angles;
 
-    this.startAngle = startAngle;
-    this.endAngle = endAngle;
     this.rotation = 0;
   }
 
   draw() {
-    const { centerX, centerY, radius } = this.settings;
+    const { centerX, centerY, radius, color } = this.settings;
+    const { startAngle, endAngle } = this.angles;
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(this.rotation);
 
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.arc(0, 0, radius, this.startAngle, this.endAngle);
+    ctx.arc(0, 0, radius, startAngle, endAngle);
     ctx.lineTo(0, 0);
 
-    ctx.fillStyle = this.color;
+    ctx.fillStyle = color;
     ctx.fill();
     ctx.stroke();
 
@@ -153,14 +155,13 @@ class Segment {
 
   drawText() {
     const { centerX, centerY } = this.settings;
+    const { startAngle, endAngle } = this.angles;
 
     ctx.save();
 
     ctx.translate(centerX, centerY);
     // middle of the segment
-    ctx.rotate(
-      this.startAngle + (this.endAngle - this.startAngle) / 2 + this.rotation
-    );
+    ctx.rotate(startAngle + (endAngle - startAngle) / 2 + this.rotation);
 
     ctx.font = "16px serif";
     ctx.fillStyle = "black";
