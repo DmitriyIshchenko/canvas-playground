@@ -26,6 +26,25 @@ class Wheel {
     this.segments = this.createSegments(LOTS);
     this.frame = null;
     this.spinDuration = 5000;
+
+    this.drawCursor();
+  }
+
+  drawCursor() {
+    ctx.save();
+    ctx.translate(this.settings.centerX, 0);
+
+    // triangle
+    ctx.beginPath();
+    ctx.moveTo(-15, 0);
+    ctx.lineTo(0, 30);
+    ctx.lineTo(15, 0);
+
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.restore();
   }
 
   createSegments(lots) {
@@ -47,6 +66,7 @@ class Wheel {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     this.segments.forEach((segment) => segment.update());
+    this.drawCursor();
   }
 
   stopAnimation() {
