@@ -9,6 +9,10 @@ const LOTS = {
   lotB: 50,
   lotC: 50,
   lotD: 30,
+  lotE: 80,
+  lotF: 150,
+  lotG: 90,
+  lotH: 30,
 };
 
 class Wheel {
@@ -31,6 +35,7 @@ class Wheel {
     return Object.entries(lots).map(([name, value]) => {
       const endAngle = startAngle + (2 * Math.PI * value) / sum;
       const segment = new Segment(name, this.settings, startAngle, endAngle);
+      segment.draw();
       startAngle = endAngle;
 
       return segment;
@@ -120,4 +125,12 @@ class Segment {
 ////////////////////////
 
 const wheel = new Wheel();
-wheel.spin();
+
+const button = document.createElement("button");
+button.textContent = "spin";
+
+document.body.append(button);
+
+button.addEventListener("click", () => {
+  wheel.spin();
+});
